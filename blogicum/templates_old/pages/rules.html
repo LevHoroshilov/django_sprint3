@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}
+Наши правила
+{% endblock %}
+{% block content %}                       
+<h1>Наши правила</h1>
+{% for element in rules_list %}
+<p>
+  {{ element|safe }}
+</p>
+{% endfor %}
+{% endblock %}
