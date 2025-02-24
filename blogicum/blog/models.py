@@ -28,7 +28,7 @@ class Location(CommonModel):
     def __str__(self):
         return self.name
 
-    
+
 
 class Category(CommonModel):
     title = models.CharField(verbose_name='Заголовок', max_length=256)
@@ -59,7 +59,6 @@ class Post(CommonModel):
         User,
         on_delete=models.CASCADE,
         verbose_name='Автор публикации',
-        default=2
     )
     location = models.ForeignKey(
         Location,
@@ -67,14 +66,12 @@ class Post(CommonModel):
         blank=True,
         null=True,
         verbose_name='Местоположение',
-        default=2
     )
     category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,
         null=True,
         verbose_name='Категория',
-        default=2
     )
 
     class Meta:
