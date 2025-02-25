@@ -3,15 +3,17 @@ from django.contrib.auth import get_user_model
 import datetime
 User = get_user_model()
 
+
 class CommonModel(models.Model):
     """Абстрактная модель. Добaвляет флаг is_published и created_at."""
+
     is_published = models.BooleanField(
-        verbose_name = 'Опубликовано', 
+        verbose_name='Опубликовано', 
         default=True, 
         help_text='Снимите галочку, чтобы скрыть публикацию.'
     )
     created_at = models.DateTimeField(
-        verbose_name= 'Добавлено',
+        verbose_name='Добавлено',
         default=datetime.datetime.now
     )
     class Meta:
