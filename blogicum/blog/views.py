@@ -33,7 +33,7 @@ def category_posts(request, category_slug):
         Q(pub_date__lte=datetime.datetime.now()),
         Q(category__slug=category_slug),
         Q(is_published=True))
-    category = get_object_or_404(Category, slug=category_slug)
+    category = get_object_or_404(Category, is_published=True)
     context = {'category': category,
                'post_list': post_list}
     return render(request, template, context)
