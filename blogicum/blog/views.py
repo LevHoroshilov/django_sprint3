@@ -8,7 +8,7 @@ def index(request):
     template = 'blog/index.html'
     post_list = Post.objects.filter(
         Q(is_published=True)
-        & Q(category__is_published=True) 
+        & Q(category__is_published=True)
         & Q(pub_date__lte=datetime.datetime.now())
     ).order_by('pub_date')[:5]
     context = {'post_list': post_list}
@@ -29,9 +29,10 @@ def post_detail(request, id):
 
 def category_posts(request, category_slug):
     template = 'blog/category.html'
-    post_list = Post.objects.filter(Q(pub_date__lte=datetime.datetime.now())
-        & Q(category__slug=category_slug)
-        & Q(is_published=True))
+    post_list = Post.objects.filter(
+        Q(pub_date__lte=datetime.datetime.now()) &
+        Q(category__slug=category_slug) &
+        Q(is_published=True))
     category = get_object_or_404(Category, slug=category_slug)
     context = {'category': category,
                'post_list': post_list}

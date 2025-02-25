@@ -21,9 +21,13 @@ class PostAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Post, PostAdmin)
+
+
 class PostInline(admin.TabularInline):
     model = Post
     extra = 1
+
+
 class CategoryAdmin(admin.ModelAdmin):
     inlines = (PostInline,)
     list_display = ('title', 'description')
