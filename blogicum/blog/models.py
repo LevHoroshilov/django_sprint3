@@ -55,16 +55,17 @@ class Category(CommonModel):
 class Post(CommonModel):
     title = models.CharField(
         verbose_name='Заголовок',
-        max_length=256,default='sad'
-        )
-    text = models.TextField(verbose_name='Текст',default='23')
+        max_length=256,
+        default='sad'
+    )
+    text = models.TextField(verbose_name='Текст', default='23')
     pub_date = models.DateTimeField(
         verbose_name='Дата и время публикации',
         default=datetime.datetime.now,
         help_text='''
             Если установить дату и время
             в будущем — можно делать отложенные публикации.''',
-        )
+    )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
