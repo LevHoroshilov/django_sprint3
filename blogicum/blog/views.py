@@ -30,8 +30,8 @@ def post_detail(request, id):
 def category_posts(request, category_slug):
     template = 'blog/category.html'
     post_list = Post.objects.filter(
-        Q(pub_date__lte=datetime.datetime.now()) and
-        Q(category__slug=category_slug) and
+        Q(pub_date__lte=datetime.datetime.now()),
+        Q(category__slug=category_slug),
         Q(is_published=True))
     category = get_object_or_404(Category, slug=category_slug)
     context = {'category': category,
