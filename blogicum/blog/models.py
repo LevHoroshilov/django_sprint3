@@ -11,7 +11,6 @@ class CommonModel(models.Model):
         help_text='Снимите галочку, чтобы скрыть публикацию.'
     )
     created_at = models.DateTimeField(
-        #"%Y-%m-%dT%H:%M:%S%:z",
         verbose_name= 'Добавлено',
         default=datetime.datetime.now
     )
@@ -50,7 +49,6 @@ class Post(CommonModel):
     title = models.CharField(verbose_name='Заголовок', max_length=256,default='sad')
     text = models.TextField(verbose_name='Текст',default='23')
     pub_date = models.DateTimeField(
-        #format = format("%Y-%m-%dT%H:%M:%S%:z"),
         verbose_name='Дата и время публикации',
         default=datetime.datetime.now,
         help_text='Если установить дату и время в будущем — можно делать отложенные публикации.',

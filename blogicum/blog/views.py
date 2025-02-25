@@ -1,19 +1,23 @@
 from django.shortcuts import render,get_object_or_404
-from blog.models import Post
-
+from blog.models import Post,Category
+from django.db.models import Q
 import datetime
+
+
 def index(request):
     template = 'blog/index.html'
-    posts = Post.objects.filter(is_published=True,category__is_published=True).order_by('pub_date')
-    context = {'posts': posts}
+    post_list = Post.objects.filter(Q(is_published=True) & Q(category__is_published=True) & Q(pub_date__lte=datetime.datetime.now())).order_by('pub_date')[:5]
+    context = {'post_list': post_list}
     return render(request, template, context)
 
 
-def post_detail(request, pk):
+def post_detail(request, id):
     post = get_object_or_404(
-        Post.objects.filter(),
-        pk=pk
-    )
+        Post,
+        Q(pub_date__lte = datetime.datetime.now()),
+        is_published=True,
+        category__is_published=True,
+        id=id)
     context = {'post': post}
     template = 'blog/detail.html'
     return render(request, template, context)
@@ -21,5 +25,10 @@ def post_detail(request, pk):
 
 def category_posts(request, category_slug):
     template = 'blog/category.html'
-    context = {'slug': category_slug}
+    post_list =Post.objects.filter(Q(pub_date__lte = datetime.datetime.now()) 
+        & Q(category__slug = category_slug)
+        & Q(is_published = True))
+    category = get_object_or_404(Category, slug = category_slug)
+    context = {'category': category,
+               'post_list': post_list}
     return render(request, template, context)
