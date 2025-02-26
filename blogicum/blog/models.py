@@ -38,7 +38,8 @@ class Category(CommonModel):
     slug = models.SlugField(
         verbose_name='Идентификатор',
         unique=True,
-        help_text='Идентификатор страницы для URL; разрешены символы латиницы, цифры, дефис и подчёркивание.'
+        help_text='Идентификатор страницы для URL; '
+        'разрешены символы латиницы, цифры, дефис и подчёркивание.'
     )
 
     class Meta:
@@ -59,7 +60,8 @@ class Post(CommonModel):
     pub_date = models.DateTimeField(
         verbose_name='Дата и время публикации',
         default=datetime.datetime.now,
-        help_text='Если установить дату и время в будущем — можно делать отложенные публикации.',
+        help_text='Если установить дату и время '
+        'в будущем — можно делать отложенные публикации.',
     )
     author = models.ForeignKey(
         User,
