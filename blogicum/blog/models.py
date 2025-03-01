@@ -81,7 +81,7 @@ class Post(CommonModel):
     )
     location = models.ForeignKey(
         Location,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         null=True,
         verbose_name='Местоположение',
     )
@@ -89,7 +89,6 @@ class Post(CommonModel):
         Category,
         on_delete=models.SET_NULL,
         null=True,
-        blank=False,
         verbose_name='Категория',
     )
     manager = PostManager()
