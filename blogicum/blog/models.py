@@ -5,6 +5,14 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+class PostManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            is_published=True,
+            category__is_published=True,
+            pub_date__lte=datetime.datetime.now()
+        )
+
 
 class CommonModel(models.Model):
     """Абстрактная модель. Добaвляет флаг is_published и created_at."""
@@ -22,14 +30,6 @@ class CommonModel(models.Model):
     class Meta:
         abstract = True
 
-
-class PostManager(models.Manager):
-    def get_posts(self):
-        return Post.objects.filter(
-            is_published=True,
-            category__is_published=True,
-            pub_date__lte=datetime.datetime.now())
-    
 
 class Location(CommonModel):
     name = models.CharField(verbose_name='Название места', max_length=256)
@@ -61,7 +61,6 @@ class Category(CommonModel):
 
 
 class Post(CommonModel):
-    managers = PostManager()
     title = models.CharField(
         verbose_name='Заголовок',
         max_length=256,
@@ -92,6 +91,7 @@ class Post(CommonModel):
         null=True,
         verbose_name='Категория',
     )
+    manager = PostManager()
 
     class Meta:
         verbose_name = 'публикация'

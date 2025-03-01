@@ -7,7 +7,7 @@ from blog.models import Post, Category
 
 def index(request):
     template = 'blog/index.html'
-    post_list = Post.managers.order_by('pub_date')[:5]
+    post_list = Post.manager.order_by('pub_date')[:5]
     context = {'post_list': post_list}
     return render(request, template, context)
 
@@ -30,7 +30,7 @@ def category_posts(request, category_slug):
         is_published=True),
         slug=category_slug
     )
-    post_list = Post.managers.filter(
+    post_list = Post.manager.filter(
         category=category,
     )
     context = {'category': category,
