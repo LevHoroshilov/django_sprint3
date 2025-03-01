@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class PostManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(
@@ -80,8 +81,7 @@ class Post(CommonModel):
     )
     location = models.ForeignKey(
         Location,
-        on_delete=models.SET_NULL,
-        blank=True,
+        on_delete=models.CASCADE,
         null=True,
         verbose_name='Местоположение',
     )
@@ -89,6 +89,7 @@ class Post(CommonModel):
         Category,
         on_delete=models.SET_NULL,
         null=True,
+        blank=False,
         verbose_name='Категория',
     )
     manager = PostManager()
