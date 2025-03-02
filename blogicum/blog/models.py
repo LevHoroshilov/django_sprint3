@@ -8,7 +8,7 @@ User = get_user_model()
 
 class PostManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(
+        return super(PostManager,self).get_queryset().filter(
             is_published=True,
             category__is_published=True,
             pub_date__lte=datetime.datetime.now()
@@ -91,6 +91,7 @@ class Post(CommonModel):
         null=True,
         verbose_name='Категория',
     )
+    objects = models.Manager() 
     manager = PostManager()
 
     class Meta:

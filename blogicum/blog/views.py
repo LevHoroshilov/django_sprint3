@@ -7,7 +7,7 @@ from blog.models import Post, Category
 
 def index(request):
     template = 'blog/index.html'
-    post_list = Post.manager.order_by('pub_date')[:5]
+    post_list = Post.manager.all().order_by('pub_date')[:5]
     context = {'post_list': post_list}
     return render(request, template, context)
 
