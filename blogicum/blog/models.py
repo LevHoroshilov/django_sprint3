@@ -14,9 +14,11 @@ class PostQuerySet(models.QuerySet):
             pub_date__lte=datetime.datetime.now(),
         )
 
+
 class PostManager(models.Manager):
     def get_queryset(self):
         return PostQuerySet(self.model).based_filter()
+
 
 class CommonModel(models.Model):
     """Абстрактная модель. Добaвляет флаг is_published и created_at."""
