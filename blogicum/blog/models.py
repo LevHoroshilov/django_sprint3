@@ -6,14 +6,17 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-class PostManager(models.Manager):
-    def get_queryset(self):
-        return super(PostManager, self).get_queryset().filter(
+class PostQuerySet(models.QuerySet):
+    def based_filter(self):
+        return self.filter(
             is_published=True,
             category__is_published=True,
-            pub_date__lte=datetime.datetime.now()
+            pub_date__lte=datetime.datetime.now(),
         )
 
+class PostManager(models.Manager):
+    def get_queryset(self):
+        return PostQuerySet(self.model).based_filter()
 
 class CommonModel(models.Model):
     """Абстрактная модель. Добaвляет флаг is_published и created_at."""
@@ -21,11 +24,11 @@ class CommonModel(models.Model):
     is_published = models.BooleanField(
         verbose_name='Опубликовано',
         default=True,
-        help_text='Снимите галочку, чтобы скрыть публикацию.'
+        help_text='Снимите галочку, чтобы скрыть публикацию.',
     )
     created_at = models.DateTimeField(
         verbose_name='Добавлено',
-        auto_now_add=True
+        auto_now_add=True,
     )
 
     class Meta:
@@ -50,7 +53,7 @@ class Category(CommonModel):
         verbose_name='Идентификатор',
         unique=True,
         help_text='Идентификатор страницы для URL; '
-        'разрешены символы латиницы, цифры, дефис и подчёркивание.'
+        'разрешены символы латиницы, цифры, дефис и подчёркивание.',
     )
 
     class Meta:
@@ -65,7 +68,6 @@ class Post(CommonModel):
     title = models.CharField(
         verbose_name='Заголовок',
         max_length=256,
-        default='sad'
     )
     text = models.TextField(verbose_name='Текст', default='23')
     pub_date = models.DateTimeField(
@@ -91,8 +93,7 @@ class Post(CommonModel):
         null=True,
         verbose_name='Категория',
     )
-    objects = models.Manager()
-    manager = PostManager()
+    objects = PostManager()
 
     class Meta:
         verbose_name = 'публикация'
